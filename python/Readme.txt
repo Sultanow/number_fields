@@ -1,8 +1,9 @@
-os.chdir(r'C:\Users\esultano\Downloads')
-load('fields.sage')
-
+os.chdir(r'C:\Users\esultano\git\number_fields\python\notebooks')
 import csv
-out = csv.writer(open("fields.csv","w"), delimiter=',',quoting=csv.QUOTE_ALL)
+
+load('class number 1_ Disc 100000001-1000000000(end).sage')
+f=open('class number 1_ Disc 10000001-100000000.csv','w')
+out = csv.writer(f, delimiter=',',quoting=csv.QUOTE_ALL)
 for row in data:
-    #print(row)
     out.writerow(row)
+f.close()

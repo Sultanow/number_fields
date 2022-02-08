@@ -19,7 +19,7 @@ from sklearn.metrics import accuracy_score
 # In[3]:
 
 
-df = pd.read_csv("all_data_n=2_h=1-vs-2.csv")
+df = pd.read_csv("real_quad_fields_1_2.csv")
 
 
 # In[4]:

@@ -4,7 +4,7 @@
 Compile the program as follows:
 
 ```console
-clang-13 minimize_collisions.cpp -o ./minimize_collisions -O3 -m64 -std=c++20 -lstdc++
+clang-13 minimize_collisions.cpp -o ./minimize_collisions -O3 -m64 -std=c++20 -lstdc++ -lm -ldl -pthread
 ```
 
 #### run

@@ -123,18 +123,21 @@ void Solve(auto const & csv, std::string const & col_prefix) {
         ++max_bits;
     
     std::mutex mux;
-    std::tuple<size_t, size_t, size_t> mini;
-    u64 minv = 1ULL << 60;
+    std::tuple<size_t, size_t, size_t> mini_a, mini_b;
+    u64 minv_a = 1ULL << 60, minv_b = 1ULL << 60;
     std::vector<std::future<void>> asyncs;
     size_t const cpu_count = std::thread::hardware_concurrency();
     
     for (size_t i = 0; i < col_names.size(); ++i) {
         asyncs.emplace_back(std::async(std::launch::async, [&, i]{
             std::vector<u32> c0_present;
+            std::vector<u8> c0_same;
             for (size_t j = i + 1; j < col_names.size(); ++j)
                 for (size_t k = j + 1; k < col_names.size(); ++k) {
                     c0_present.clear();
                     c0_present.resize(1 << (max_bits * 3));
+                    c0_same.clear();
+                    c0_same.resize(1 << (max_bits * 3));
                     {
                         auto const & [cA, cB, cC] = std::tie(c0[i], c0[j], c0[k]);
                         for (size_t l = 0; l < c0[0].size(); ++l) {
@@ -143,23 +146,44 @@ void Solve(auto const & csv, std::string const & col_prefix) {
                             ++c0_present[pos];
                         }
                     }
-                    u64 cnt = 0;
+                    u64 cnt_a = 0, cnt_b = 0;
                     {
                         auto const & [cA, cB, cC] = std::tie(c1[i], c1[j], c1[k]);
-                        for (size_t l = 0; l < c1[0].size(); ++l)
-                            cnt += c0_present[(u32(cA[l]) << (max_bits * 2)) | (u32(cB[l]) << max_bits) | u32(cC[l])];
+                        for (size_t l = 0; l < c1[0].size(); ++l) {
+                            auto const pos = (u32(cA[l]) << (max_bits * 2)) | (u32(cB[l]) << max_bits) | u32(cC[l]);
+                            cnt_a += c0_present[pos];
+                            if (c0_present[pos] > 0) {
+                                if (!c0_same[pos]) {
+                                    ++cnt_b;
+                                    c0_same[pos] = 1;
+                                }
+                            }
+                        }
                     }
-                    if (cnt < minv) {
+                    if (cnt_a < minv_a) {
                         std::unique_lock<std::mutex> lock(mux);
-                        if (cnt < minv) {
-                            minv = cnt;
-                            mini = std::tie(i, j, k);
+                        if (cnt_a < minv_a) {
+                            minv_a = cnt_a;
+                            mini_a = std::tie(i, j, k);
                             std::cout
-                                << "Time " << std::setw(5) << std::llround(Time()) << ", ("
+                                << "A, Time " << std::setw(5) << std::llround(Time()) << " sec, ("
                                 << std::setw(3) << i << " '" << std::setw(col_prefix.size() + 3) << col_names[i] << "', "
                                 << std::setw(3) << j << " '" << std::setw(col_prefix.size() + 3) << col_names[j] << "', " << std::setw(3) << k
-                                << " '" << std::setw(col_prefix.size() + 3) << col_names[k] << "'), collisions "
-                                << std::setw(4 * 4) << NumToStr(cnt) << std::endl << std::flush;
+                                << " '" << std::setw(col_prefix.size() + 3) << col_names[k] << "'), collisions_a "
+                                << std::setw(4 * 4) << NumToStr(minv_a) << std::endl << std::flush;
+                        }
+                    }
+                    if (cnt_b < minv_b) {
+                        std::unique_lock<std::mutex> lock(mux);
+                        if (cnt_b < minv_b) {
+                            minv_b = cnt_b;
+                            mini_b = std::tie(i, j, k);
+                            std::cout
+                                << "B, Time " << std::setw(5) << std::llround(Time()) << " sec, ("
+                                << std::setw(3) << i << " '" << std::setw(col_prefix.size() + 3) << col_names[i] << "', "
+                                << std::setw(3) << j << " '" << std::setw(col_prefix.size() + 3) << col_names[j] << "', " << std::setw(3) << k
+                                << " '" << std::setw(col_prefix.size() + 3) << col_names[k] << "'), collisions_b "
+                                << std::setw(4 * 4) << minv_b << std::endl << std::flush;
                         }
                     }
                 }

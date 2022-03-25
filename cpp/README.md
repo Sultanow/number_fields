@@ -13,3 +13,6 @@ Run the program as follows:
 ```console
 ./minimize_collisions real_quad_fields_1_2.csv a_ > collisions.txt
 ```
+
+#### output
+A-line are FULL collisions. B-line output Unique collisions.

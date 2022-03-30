@@ -37,6 +37,7 @@ class Timing {
 public:
     Timing(std::string const & name)
         : name_(name), tb_(Time()) {
+        std::cout << "'" << name_ << "' started..." << std::endl;
     }
     ~Timing() {
         double const tp = Time() - tb_;
@@ -51,7 +52,7 @@ private:
 
 auto ReadCSV(std::string const & fname) {
     Timing tim("CSV Read");
-
+    
     auto Split = [&](std::vector<std::string> & v, std::string_view const & s, std::string_view const & delim){
         v.clear();
         size_t start = 0;
@@ -69,11 +70,14 @@ auto ReadCSV(std::string const & fname) {
     std::cout << "Reading CSV... " << std::flush;
     
     std::map<std::string, std::vector<std::string>> res;
+    u64 const fsize = std::filesystem::file_size(fname);
     std::ifstream csv(fname);
     ASSERT_MSG(csv && csv.is_open(), "Failed to open file '" + fname + "'");
     std::string line;
     std::vector<std::string> elems, col_names;
     size_t iline = 0;
+    
+    double const tb = Time();
     
     while (true) {
         line.clear();
@@ -92,8 +96,11 @@ auto ReadCSV(std::string const & fname) {
                 ASSERT_MSG(j < col_names.size(), "j " + std::to_string(j) + ", line '" + line + "'");
                 res[col_names[j]].push_back(elems[j]);
             }
-        if ((iline & 0x3FFF) == 0)
-            std::cout << (iline / 1000) << "K " << std::flush;
+        if ((iline & 0x3FFF) == 0) {
+            i64 const tell = csv.tellg();
+            std::cout << (iline / 1000) << "K " << std::fixed << std::setprecision(1) << 100.0 * (tell < 0 ? fsize : tell) / fsize
+                << "% (" << std::llround(Time() - tb) << " sec), " << std::flush;
+        }
         ++iline;
     }
     
@@ -124,6 +131,7 @@ struct ParsedData {
 
 auto Parse(auto const & csv, std::string const & col_prefix) {
     Timing tim("CSV Parse");
+    auto const tb = Time();
     ParsedData parsed_data;
     auto & col_names = parsed_data.col_names;
     for (auto const & [k, v]: csv)
@@ -146,6 +154,7 @@ auto Parse(auto const & csv, std::string const & col_prefix) {
     for (size_t i = 0; i < num_rows; ++i)
         classes.push_back(csv.at("class_number").at(i) == "1");
     auto & val2idx = parsed_data.val2idx;
+    double report_time = -1000;
     u8 max_val = 0;
     for (size_t j = 0; j < col_names.size(); ++j) {
         auto & col = csv.at(col_names[j]);
@@ -156,6 +165,11 @@ auto Parse(auto const & csv, std::string const & col_prefix) {
             if (max_val >= val2idx.size())
                 val2idx.resize(max_val + 1);
             val2idx[val] = 1;
+        }
+        if (Time() - report_time >= 20 || j + 1 >= col_names.size()) {
+            std::cout << std::fixed << std::setprecision(1) << 50.0 * (j + 1) / col_names.size() << "% ("
+                << std::llround(Time() - tb) << " sec), " << std::flush;
+            report_time = Time();
         }
     }
     auto & vals_cnt = parsed_data.vals_cnt;
@@ -180,7 +194,13 @@ auto Parse(auto const & csv, std::string const & col_prefix) {
             else
                 c1[j].push_back(u8(val2idx[val]));
         }
+        if (Time() - report_time >= 20 || j + 1 >= col_names.size()) {
+            std::cout << std::fixed << std::setprecision(1) << (50.0 + 50.0 * (j + 1) / col_names.size()) << "% ("
+                << std::llround(Time() - tb) << " sec), " << std::flush;
+            report_time = Time();
+        }
     }
+    std::cout << std::endl << std::flush;
     {
         auto & max_bits = parsed_data.max_bits;
         while (vals_cnt > (1 << max_bits))
@@ -190,11 +210,11 @@ auto Parse(auto const & csv, std::string const & col_prefix) {
 }
 
 void SolveVar0(auto const & csv, std::string const & col_prefix) {
-    Timing tim("SolveVar0");
-
     double const tb = Time();
     
     auto const parsed_data = Parse(csv, col_prefix);
+    
+    Timing tim("SolveVar0");
     
     auto & c0 = parsed_data.c0, & c1 = parsed_data.c1;
     size_t const max_bits = parsed_data.max_bits;
@@ -293,9 +313,9 @@ struct __attribute__((packed)) PrecEntry {
 std::string const prec_fname = "green_red_precomputed.dat";
 
 void PreCompute(auto const & csv, std::string const & col_prefix) {
-    Timing tim("PreCompute");
-    
     auto const parsed_data = Parse(csv, col_prefix);
+    
+    Timing tim("PreCompute");
 
     double const tb = Time();
     
@@ -470,7 +490,7 @@ void SolveVar1(size_t cnt, auto const & cost) {
     
     {
         Timing tim("Save Results");
-
+        
         auto const tb = Time();
         
         std::stringstream ss;

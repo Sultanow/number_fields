@@ -8,11 +8,13 @@ clang-13 minimize_collisions.cpp -o ./minimize_collisions -O3 -m64 -std=c++20 -l
 ```
 
 #### run
-Run the program as follows:
+Delete at first any precomputed file.
+Then, run the program as follows:
 
 ```console
-./minimize_collisions real_quad_fields_1_2.csv a_ > collisions.txt
+./minimize_collisions "final_dataset_1vs3_(2000)_coeffs.csv" a_
 ```
 
 #### output
-A-line are FULL collisions. B-line output Unique collisions.
+Three files are generated: green_red_columns_names.txt (1), green_red_precomputed.dat (2) and green_red_answer.txt (3).
+The last file contains the final results.

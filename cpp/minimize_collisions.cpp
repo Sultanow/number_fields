@@ -518,7 +518,8 @@ int main(int argc, char ** argv) {
         //SolveVar0(ReadCSV(argv[1]), argc >= 3 ? argv[2] : "a_");
         PreCompute(ReadCSV(argv[1]), argc >= 3 ? argv[2] : "a_");
         SolveVar1(10'000, [](double c0_cnt, double cmn_cnt, double c1_cnt){
-            return cmn_cnt / (c0_cnt + c1_cnt - 2 * cmn_cnt);
+            //return cmn_cnt / (c0_cnt + c1_cnt - 2 * cmn_cnt);
+            return c0_cnt <= cmn_cnt ? 1000 : cmn_cnt / (c0_cnt + c1_cnt - 2 * cmn_cnt);
         });
         return 0;
     } catch (std::exception const & ex) {

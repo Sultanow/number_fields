@@ -10,4 +10,4 @@ which is in our C++ Syntax:
 * `C_2 = cmn_cnt - (c0_cnt - cmn_cnt + c1_cnt - cmn_cnt)`
 * `C_3 = 2/(1/(c0_cnt - cmn_cnt) + 1/(c1_cnt - cmn_cnt))`
 
-since `#pure_Green=c0_cnt - cmn_cnt` and `#pure_Red=c1_cnt - cmn_cnt`.
+since `#pure_Green = c0_cnt - cmn_cnt` and `#pure_Red = c1_cnt - cmn_cnt`.

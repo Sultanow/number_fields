@@ -414,7 +414,7 @@ void SolveVar1(size_t cnt, auto const & cost) {
     //std::function<bool(PrecEntry const &, PrecEntry const &)>
     auto const Cmp =
         [&](auto const & a, auto const & b){
-            return cost(a.c0_cnt, a.cmn_cnt, a.c1_cnt) < cost(b.c0_cnt, b.cmn_cnt, b.c1_cnt);
+            return cost(a.c0_cnt, a.cmn_cnt, a.c1_cnt, a.i, a.j, a.k) < cost(b.c0_cnt, b.cmn_cnt, b.c1_cnt, a.i, a.j, a.k);
         };
     
     auto const tb = Time();
@@ -499,7 +499,7 @@ void SolveVar1(size_t cnt, auto const & cost) {
         for (size_t i = 0; i < gheap.size(); ++i) {
             auto const & entry = gheap[i];
             ss << entry.i << "," << entry.j << "," << entry.k << "," << entry.c0_cnt << "," << entry.cmn_cnt << ","
-                << entry.c1_cnt << "," << std::fixed << cost(entry.c0_cnt, entry.cmn_cnt, entry.c1_cnt) << std::endl;
+                << entry.c1_cnt << "," << std::fixed << cost(entry.c0_cnt, entry.cmn_cnt, entry.c1_cnt, entry.i, entry.j, entry.k) << std::endl;
             if (ss.view().size() >= (1 << 24) || i == 0 || i + 1 >= gheap.size()) {
                 fout << ss.str();
                 ss.str("");
@@ -516,12 +516,9 @@ int main(int argc, char ** argv) {
     try {
         ASSERT(argc >= 2);
         //SolveVar0(ReadCSV(argv[1]), argc >= 3 ? argv[2] : "a_");
-        PreCompute(ReadCSV(argv[1]), argc >= 3 ? argv[2] : "a_");
-        SolveVar1(10'000, [](double c0_cnt, double cmn_cnt, double c1_cnt){
-            //return cmn_cnt / (c0_cnt + c1_cnt - 2 * cmn_cnt);
-
-            //enforce 4 red bubbles by "cmn_cnt + 3"
-            return c0_cnt <= cmn_cnt + 3 ? 1000 : cmn_cnt / (c0_cnt + c1_cnt - 2 * cmn_cnt);
+        //PreCompute(ReadCSV(argv[1]), argc >= 3 ? argv[2] : "a_");
+        SolveVar1(1'000, [](double c0_cnt, double cmn_cnt, double c1_cnt, size_t i, size_t j, size_t k){
+            return c0_cnt < cmn_cnt + 1 || c1_cnt < cmn_cnt + 80 ? 1000 : cmn_cnt / (c0_cnt + c1_cnt - 2 * cmn_cnt);
         });
         return 0;
     } catch (std::exception const & ex) {

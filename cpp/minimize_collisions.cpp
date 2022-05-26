@@ -414,7 +414,7 @@ void SolveVar1(size_t cnt, auto const & cost) {
     //std::function<bool(PrecEntry const &, PrecEntry const &)>
     auto const Cmp =
         [&](auto const & a, auto const & b){
-            return cost(a.c0_cnt, a.cmn_cnt, a.c1_cnt, a.i, a.j, a.k) < cost(b.c0_cnt, b.cmn_cnt, b.c1_cnt, a.i, a.j, a.k);
+            return cost(a.c0_cnt, a.cmn_cnt, a.c1_cnt, a.i, a.j, a.k) < cost(b.c0_cnt, b.cmn_cnt, b.c1_cnt, b.i, b.j, b.k);
         };
     
     auto const tb = Time();
@@ -434,7 +434,7 @@ void SolveVar1(size_t cnt, auto const & cost) {
             i64 const readed = f.gcount();
             ASSERT(readed % sizeof(entries[0]) == 0);
             entries.resize(readed / sizeof(entries[0]));
-            
+
             asyncs.push_back(std::async(std::launch::async, [&, entries]{
                 std::vector<PrecEntry> heap;
                 for (auto const & entry: entries) {
@@ -518,7 +518,7 @@ int main(int argc, char ** argv) {
         //SolveVar0(ReadCSV(argv[1]), argc >= 3 ? argv[2] : "a_");
         //PreCompute(ReadCSV(argv[1]), argc >= 3 ? argv[2] : "a_");
         SolveVar1(1'000, [](double c0_cnt, double cmn_cnt, double c1_cnt, size_t i, size_t j, size_t k){
-            return c0_cnt < cmn_cnt + 1 || c1_cnt < cmn_cnt + 80 ? 1000 : cmn_cnt / (c0_cnt + c1_cnt - 2 * cmn_cnt);
+            return cmn_cnt / (c0_cnt + c1_cnt - 2 * cmn_cnt) + (i == 664 && j == 738 && k == 983 ? 0 : 1000);
         });
         return 0;
     } catch (std::exception const & ex) {

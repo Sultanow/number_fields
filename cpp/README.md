@@ -14,7 +14,7 @@ Then, run the program as follows:
 ```console
 ./minimize_collisions "final_dataset_1vs3_(2000)_coeffs.csv" a_
 ```
-Note that the PreCompute() function is only necessary in the first run. For subsequent runs it should be commented out. Otherwise the *precomputed.txt* file will be overwritten and each re-run of precomputation routine takes hours to complete.
+Note that the `PreCompute()` function is only necessary in the first run. For subsequent runs it should be commented out. Otherwise the *precomputed.txt* file will be overwritten and each re-run of precomputation routine takes hours to complete.
 
 #### output
 Three files are generated: green_red_columns_names.txt (1), green_red_precomputed.dat (2) and green_red_answer.txt (3).

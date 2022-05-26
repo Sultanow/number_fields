@@ -33,3 +33,11 @@ To figure out, which triples has the most bubbles, we use:
 return -(c0_cnt + c1_cnt - cmn_cnt);
 ```
 
+#### focussing on certain triples
+Let us define the following optimization function:
+
+```cpp
+return cmn_cnt / (c0_cnt + c1_cnt - 2 * cmn_cnt) + (i == 664 && j == 738 && k == 983 ? 0 : 1000);
+```
+
+Basically this formula computes the "cost" as usual, but for our chosen triple `(i, j, k)` then add 0 and otherwise add 1000. This means that we want lower the "cost" of our specific triple and higher "cost" for all other triples, such that our triple will appear in first place. Other triples will have cost shiften by 1000.

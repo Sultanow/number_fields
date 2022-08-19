@@ -10,8 +10,9 @@ The idea is to use algorithmic, computational and Machine Learning techniques fo
 # Class number distributed along residue_0, discriminant and regulator
 
 
-![](img/rdr_1.png)  |  ![](img/rdr_3.png) |  ![](img/rdr_2.png)
+![](img/rdr_1.png)  |  ![](img/rdr_3.png)  |  ![](img/rdr_2.png)
 :------------------:|:--------------------:|:--------------------: 
 
+The following plot shows five classes of real quadratic fields distributed along residue_0 and regulator: class number 1 (red), class number 2 (green), class number 3 (blue), class number 4 (black), class number 5 (yellow).
 
-<img src="img/class_number.png" width="200"/>
+<img src="img/class_number.png" width="400"/>

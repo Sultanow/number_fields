@@ -8,7 +8,7 @@ The idea is to use algorithmic, computational and Machine Learning techniques fo
 - [Real Quadratic Field (Class Number 1 vs. 3) on Kaggle](https://www.kaggle.com/datasets/eldarsultanow/real-quadratic-field-class-number-1-vs-3)
 
 # Class number distributed along residue_0, discriminant and regulator
-
+The following plot shows four classes of real quadratic fields distributed along residue_0, discriminant and regulator: class number 1 (red), class number 2 (green), class number 3 (blue), class number 4 (black).
 
 ![](img/rdr_1.png)  |  ![](img/rdr_3.png)  |  ![](img/rdr_2.png)
 :------------------:|:--------------------:|:--------------------: 

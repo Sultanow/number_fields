@@ -9,10 +9,10 @@ The idea is to use algorithmic, computational and Machine Learning techniques fo
 
 # Class number distributed along residue_0, discriminant and regulator
 
-Solarized dark             |  Solarized Ocean
+![](img/rdr_1.png  |  ![](img/rdr_3.png
 :-------------------------:|:-------------------------:
-![](img/rdr_1.png?cropResize=50,50)  |  ![](img/rdr_3.png?cropResize=50,50)
+![](img/rdr_2.png  |  ![](img/class_number.png
 
 
-![](img/rdr_2.png?cropResize=50,50)
+
 

@@ -9,6 +9,9 @@ The idea is to use algorithmic, computational and Machine Learning techniques fo
 
 # Class number distributed along residue_0, discriminant and regulator
 
-![This is an image](img/rdr_1.png)
-![This is an image](img/rdr_2.png)
-![This is an image](img/rdr_3.png)
+| ![](img/rdr_1.png?cropResize=50,50) | ![](img/rdr_3.png?cropResize=50,50) |
+
+
+
+![](img/rdr_2.png?cropResize=50,50)
+

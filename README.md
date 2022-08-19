@@ -2,7 +2,7 @@
 
 The idea is to use algorithmic, computational and Machine Learning techniques for classifying real quadratic fields by their class number. Currently, we have attempted binary classification by class number 1 versus 2 (which worked well) and by class number 1 versus 3 (which turned out to be an extremely hard task).
 
-# The data
+# The Data
 
 - [Real Quadratic Field (Class Number 1 vs. 2) on Kaggle](https://www.kaggle.com/datasets/eldarsultanow/real-quad-fields-1-2/settings) 
 - [Real Quadratic Field (Class Number 1 vs. 3) on Kaggle](https://www.kaggle.com/datasets/eldarsultanow/real-quadratic-field-class-number-1-vs-3)

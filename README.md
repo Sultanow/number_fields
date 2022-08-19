@@ -15,4 +15,4 @@ The idea is to use algorithmic, computational and Machine Learning techniques fo
 
 
 
-![](img/class_number.png){ width=50% }
+![](img/class_number.png =250x)

@@ -14,5 +14,4 @@ The idea is to use algorithmic, computational and Machine Learning techniques fo
 :------------------:|:--------------------:|:--------------------: 
 
 
-
-![](img/class_number.png){:height="36px" width="36px"}
+<img src="img/class_number.png" width="200"/>

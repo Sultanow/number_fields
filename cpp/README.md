@@ -1,5 +1,5 @@
 ## Arty's programm to search Zeta Coefficient triples with minimal collisions
-This program has been used for the experiments, described by [this paper (arXiv:2209.09283 [math.NT])](https://arxiv.org/abs/2209.09283), to quantify difficulties in separating class numbers of real quadratic fields.
+This program has been used for the experiments, described by [this paper (arXiv:2209.09283)](https://arxiv.org/abs/2209.09283), to quantify difficulties in separating class numbers of real quadratic fields.
 
 #### compile
 Compile the program as follows:
